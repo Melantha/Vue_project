@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>即时搜索</title>
+	<script src="https://unpkg.com/vue"></script>
+	<style type="text/css">
+		/* Hide un-compiled mustache bindings
+until the Vue instance is ready */
+
+[v-cloak] {
+  display: none;
+}
+
+*{
+    margin:0;
+    padding:0;
+}
+.bar{
+    background-color:#5c9bb7;
+
+    background-image:-webkit-linear-gradient(top, #5c9bb7, #5392ad);
+    background-image:-moz-linear-gradient(top, #5c9bb7, #5392ad);
+    background-image:linear-gradient(top, #5c9bb7, #5392ad);
+
+    box-shadow: 0 1px 1px #ccc;
+    border-radius: 2px;
+    width: 400px;
+    padding: 14px;
+    margin: 45px auto 20px;
+    position:relative;
+}
+
+.bar input{
+    background:#fff no-repeat 13px 13px;
+    border: none;
+    width: 100%;
+    line-height: 19px;
+    padding: 11px 0;
+
+    border-radius: 2px;
+    box-shadow: 0 2px 8px #c4c4c4 inset;
+    text-align: left;
+    font-size: 14px;
+    font-family: inherit;
+    color: #738289;
+    font-weight: bold;
+    outline: none;
+    text-indent: 40px;
+}
+
+ul{
+    list-style: none;
+    width: 428px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+ul li{
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    overflow: hidden;
+}
+
+ul li img{
+    width:60px;
+    height:60px;
+    float:left;
+    border:none;
+}
+
+ul li p{
+    margin-left: 75px;
+    font-weight: bold;
+    padding-top: 12px;
+    color:#6e7a7f;
+}
+
+
+	</style>
+</head>
+<body>
+	<h3 style="color: blue">
+		Vue.filter()过滤器中，两个参数，第一个是过滤器的名字，第二个是过滤函数
+	</h3>
+	<div id="main">
+        <div class="bar">
+            <input type="text" v-model="searchString" placeholder="搜索">
+        </div>
+        <ul>
+            <li v-for="i in articles ">
+                <a v-bind:href="i.url">
+                    <img v-bind:src="i.image" >
+                </a>
+                    <p>{{i.title}}</p>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+    	Vue.filter('searchFor',function(value,searchString){
+            var result = [];
+            if(!searchString){
+                return value;
+            }
+        
+            searchString = searchString.trim().toLowerCase();
+            result = value.filter(function(item){
+                if(item.title.toLowerCase().indexOf(searchString) !== -1){
+                    return item;
+                }
+            });
+        
+            return result;
+        });
+
+        var demo = new Vue({
+    el:'#main',
+    data:{
+        searchString:'',
+        articles:[
+                {
+                    "title": "What You Need To Know About CSS Variables",
+                    "url": "http://tutorialzine.com/2016/03/what-you-need-to-know-about-css-variables/",
+                    "image": "http://cdn.tutorialzine.com/wp-content/uploads/2016/03/css-variables-100x100.jpg"
+                },
+                {
+                    "title": "Freebie: 4 Great Looking Pricing Tables",
+                    "url": "http://tutorialzine.com/2016/02/freebie-4-great-looking-pricing-tables/",
+                    "image": "http://cdn.tutorialzine.com/wp-content/uploads/2016/02/great-looking-pricing-tables-100x100.jpg"
+                },
+                {
+                    "title": "20 Interesting JavaScript and CSS Libraries for February 2016",
+                    "url": "http://tutorialzine.com/2016/02/20-interesting-javascript-and-css-libraries-for-february-2016/",
+                    "image": "http://cdn.tutorialzine.com/wp-content/uploads/2016/02/interesting-resources-february-100x100.jpg"
+                },
+                {
+                    "title": "Quick Tip: The Easiest Way To Make Responsive Headers",
+                    "url": "http://tutorialzine.com/2016/02/quick-tip-easiest-way-to-make-responsive-headers/",
+                    "image": "http://cdn.tutorialzine.com/wp-content/uploads/2016/02/quick-tip-responsive-headers-100x100.png"
+                },
+                {
+                    "title": "Learn SQL In 20 Minutes",
+                    "url": "http://tutorialzine.com/2016/01/learn-sql-in-20-minutes/",
+                    "image": "http://cdn.tutorialzine.com/wp-content/uploads/2016/01/learn-sql-20-minutes-100x100.png"
+                },
+                {
+                    "title": "Creating Your First Desktop App With HTML, JS and Electron",
+                    "url": "http://tutorialzine.com/2015/12/creating-your-first-desktop-app-with-html-js-and-electron/",
+                    "image": "http://cdn.tutorialzine.com/wp-content/uploads/2015/12/creating-your-first-desktop-app-with-electron-100x100.png"
+                }
+        ]
+    }
+        });
+
+    </script>
+</body>
+</html>

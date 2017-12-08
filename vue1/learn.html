@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<p>computed和method两种方式是相同的，但不同的是计算属性是基于它们的依赖进行缓存。计算属性只有在它的相关依赖发生改变时才会重新求值，就是computed中计算属性不再发生改变。只要发生重新渲染而method调用总会执行该函数。</p>
+	<p>为什么需要缓存？当一个性能开销较大的计算属性A，它需要遍历一个极大的数组和做大量的计算。然后我们可能有其他的计算属性依赖于A。如果没有缓存，我们将不可避免的多次执行A的getter。</p>
+	<h4 style="color: blue">如果不希望有缓存，则使用method替代。</h4>
+	<div id="app1">
+		<p>{{msg}}</p>
+		<button v-on:click='reverseMsg'>点击逆转消息</button>
+	</div>
+
+	<div id="app2">
+		<H3>鼠标悬停提示</H3>
+		<span v-bind:title="msg2">鼠标悬停提示消息</span>
+	</div>
+
+	<!-- <div id="app3">
+		<p>Ask a question <input v-model="question"></p>
+		<p>{{Answer}}</p>
+	</div> -->
+	<h4>v-for和v-if一起使用时，v-for比v-if具有更高的优先级</h4>
+
+	<script>
+	var app1 = new Vue({
+		el:'#app1',
+		data: {
+			msg: 'Hello Vue.js!'
+		},
+		methods: {
+			reverseMsg:function() {
+				this.msg = this.msg.split('').reverse().join('')
+			}
+		}
+	})
+
+	var app2 = new Vue({
+		el:'#app2',
+		data: {
+			msg2: '当前时间为' + new Date()
+		}
+	})
+
+
+	var vm = new Vue({
+		data: {
+			a : 1
+		},
+		created:function () {
+			console.log('a is' + this.a)
+			//this指向的是vm
+		}
+	})
+
+	var data1 = { a:1 }
+	var  vm1 = new Vue({
+		data: data1
+	})
+
+	if (vm1.a === data1.a) {
+		console.log('true')
+	}
+	//设置属性也会影响到原始数据
+	vm1.a = 2;
+	console.log(data1.a)	//2
+
+	//......反之亦然
+	data1.a = 3
+	console.log(vm1.a)
+
+	// var vm = new Vue({
+	// 	data: {
+	// 		firstName: 'foo',
+	// 		lastName: 'Bar'
+	// 	}, 
+	// 	computed: {
+	// 		fullName: function() {
+	// 			//getter
+	// 			get:function() {
+	// 				return this.firstName +　'' + this.lastName
+	// 				//foo Bar
+	// 			},
+	// 			//setter
+	// 			set:function(newValue) {
+	// 				var names = newValue.split('')
+	// 				this.firstName = names[0]
+	// 				this.lastName = names[names.length - 1]
+	// 			}
+	// 		}
+	// 	}
+	// })
+
+	// var app3 = new Vue({
+	// 	el: '#app3',
+	// 	data3: {
+	// 		question: '',
+	// 		Answer: 'I cannot answer your question!'
+	// 	},
+	// 	watch: {
+	// 		//如果question改变，这个函数就会运行
+	// 		question:function(newQuest) {
+	// 			this.answer = 'wating for you......'
+	// 			this.getAnswer()
+	// 		}
+	// 	},
+	// 	methods : {
+	// 		 getAnswer:debounce(
+	// 			function(){
+	// 				if (this.question.indexOf('?') === -1) {
+	// 					this.answer = 'Questions usually contain a question mark. ;-)'
+	// 					return
+	// 				}
+	// 				this.answer = 'Thinking...'
+	// 				var vm3 = this
+	// 				axios.get('https://yesno.wtf/api')
+	// 					.then(function(responce) {
+	// 						vm3.answer =  _.capitalize(response.data.answer)
+	// 					})
+	// 					.catch(function(error) {
+	// 						vm3.answer =  'Error! Could not reach the API. ' + error
+	// 					})
+	// 			},1000	//为用户停止输入等待的秒数
+	// 				)
+	// 	}
+	// })
+	</script>
+</body>
+</html>

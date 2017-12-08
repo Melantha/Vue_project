@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title>列表查询</title>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+</head>
+<body>
+	<div id="list-demo">
+		<h3>在Vue 2.2.0+的版本里，当在组件中使用v-for的时候，key是必须的</h3>
+		<input v-model="query">
+		<transition-group
+		  name="fade"
+		  tag="ul"
+		  v-bind:css = "false"
+		  v-on:before-enter = "beforeEnter"
+		  v-on:enter="enter"
+		  v-on:leave = "leave"
+		>
+			<li v-for="(item,index) in queryList" 
+				v-bind:data-index="index" 
+				v-bind:key="item.msg"
+			>{{item.msg}}</li>
+		</transition-group>
+	</div>
+
+	<script type="text/javascript">
+		new Vue({
+			el:"#list-demo",
+			data: {
+				query: '',
+				items: [
+					{msg: '比较忙不忙把你们的'},
+					{msg: '们参加贷款VC'},
+					{msg: '荒诞不经施工费看风景'}
+				]
+			},
+			//属性
+			computed: {
+				queryList:function() {
+					var  vm = this
+					return this.items.filter(function(item) {
+						return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+
+					})
+				}
+			},
+			methods: {
+				beforeEnter:function(el) {
+					el.style.opacity = 0
+					el.style.height = 0
+				},
+				enter:function(el,done) {
+					var delay = el.dataset.index * 150
+					setTimeout(function() {
+						Velocity(
+							el,
+							{opacity:1, height: '1.6em'},
+							{complete: done}
+						)
+					},delay)
+				},
+				leave:function(el,done) {
+					var delay = el.dataset.index *140
+					setTimeout(function(){
+						Velocity(
+							el,
+							{opacity:0,height:0},
+							{complete: done}
+						)
+					},delay)
+				}
+			}
+
+		})
+	</script>
+</body>
+</html>

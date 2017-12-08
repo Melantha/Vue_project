@@ -1,0 +1,4 @@
+https://cn.vuejs.org/v2/guide/components.html#注册
+关于：counter不理解
+
+propl理解

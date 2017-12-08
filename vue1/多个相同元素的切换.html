@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>多个相同元素的切换</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<transition>
+  		<button v-if="isEditing" key="save">
+  		  Save
+  		</button>
+  		<button v-else key="edit">
+  		  Edit
+  		</button>
+	</transition>
+	<p>可重写为：</p>
+	<transition>
+		<button v-bind:key="isEditing">
+			{{ isEditing ? 'Save' : 'Edit' }}
+		</button>
+	</transition>
+
+	<p>示例</p>
+	<transition>
+  		<button v-if="docState === 'saved'" key="saved">
+  		  Edit
+  		</button>
+  		<button v-if="docState === 'edited'" key="edited">
+  		  Save
+  		</button>
+  		<button v-if="docState === 'editing'" key="editing">
+  		  Cancel
+  		</button>
+	</transition>
+
+	<p>可重写为：</p>
+	<transition>
+		<button v-bind:key="docState">
+			{{buttonMessage}}
+		</button>
+	</transition>
+
+	<p>js需要写为</p>
+	computed: {
+		buttonMeaasge:function() {
+			switch(this.doState) {
+				case 'Saved' : return 'Edit'
+				case 'edited': return 'Save'
+      			case 'editing': return 'Cancel'
+			}
+		}
+	}
+</body>
+</html>

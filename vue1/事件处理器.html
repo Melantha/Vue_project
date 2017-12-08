@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>事件处理器</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="app-1">
+		<button v-on:click="counter=counter+1">按钮</button>
+		<p>这个按钮被点击了{{counter}}次</p>
+	</div>
+
+	<div id="app-2">
+		<button v-on:click="greet">Greet</button>
+	</div>
+
+	<p><a v-on:click.stop="doThis"></a> 阻止事件冒泡</p>
+	<p><a v-on:submit.prevent="subMit"></a> 提交事件不再重载页面</p>
+	<p><a v-on:click.stop.prevent="doThat"></a> 修饰符可以串联</p>
+	<p><a v-on:submit.prevent></a> 只有修饰符</p>
+
+
+
+	
+	<p><a v-on:click.capture></a> 添加事件侦听器时使用事件捕获模式</p>
+	<p><a v-on:click.self="doThat"></a> 只当事件在该元素本身触发时回调</p>
+	<h3>使用@click.prevent.self会阻止所有的点击，而使用@click.self.prevent则只会阻止元素上的点击。</h3>
+	<script type="text/javascript">
+		var app1 = new Vue({
+			el:'#app-1',
+			data: {
+				counter:0
+			}
+		})
+
+		var app2 = new Vue({
+			el:'#app-2',
+			data: {
+				name: 'vue.js!'
+			}, 
+			methods : {
+				greet:function() {
+					alert( 'Hello' + this.name + '!');
+					if (event) {
+						alert(event.target.tagName)
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

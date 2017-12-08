@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>tab选项卡</title>
+	<script src="https://unpkg.com/vue"></script>
+	<style type="text/css">
+		.nav ul li {
+			list-style: none;
+			float: left;
+			width: 100px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			background-color: #eee;
+			border-right: 1px solid gray;
+			cursor: pointer;
+		}
+		.nav .native {
+			background-color: red;
+			color: blue;
+		}
+	</style>
+</head>
+<body>
+	<div id="tab">
+		<div class="nav">
+			<ul>
+				<li :class="{'native':acType === 0}" @click="select(0)">首页</li>
+				<li :class="{'native':acType === 1}" @click="select(1)">JS</li>
+				<li :class="{'native':acType === 2}" @click="select(2)">HTML</li>
+				<li :class="{'native':acType === 3}" @click="select(3)">VUE</li>
+			</ul>
+		</div>
+		
+		<div class="content">
+			<p v-show="acType === 0">首页</p>
+			<p v-show="acType === 1">JS</p>
+			<p v-show="acType === 2">HTML</p>
+			<p v-show="acType === 3">VUE</p>
+		</div>
+	</div>
+
+	<script>
+		new Vue({
+			el: '#tab',
+			showFlag: true,
+			data: {
+				acType: 0
+			},
+			methods : {
+				select:function(type) {
+					this.acType = type
+				}
+			}
+		})
+	</script>
+</body>
+</html>

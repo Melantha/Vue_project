@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>动画过渡</title>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+	<style type="text/css">
+		.fade-enter-active,  .fade-leave-active {
+			transition: opacity 0.5s;
+		}
+		.fade-enter, .fade-leave-to {
+			opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<h3>过渡的-CSS-类名----会有 6 个(CSS)类名在 enter/leave 的过渡中切换</h3>
+	<p>1.v-enter: 定义进入过渡的开始状态。在元素被插入时生效，在下一个帧移除。</p>
+	<p>2.v-enter-active: 定义过渡的状态。在元素整个过渡过程中作用，在元素被插入时生效，在 transition/animation 完成之后移除。 这个类可以被用来定义过渡的过程时间，延迟和曲线函数。</p>
+	<p>3.v-enter-to: 2.1.8版及以上 定义进入过渡的结束状态。在元素被插入一帧后生效（于此同时 v-enter 被删除），在 transition/animation 完成之后移除。</p>
+	<p>4.v-leave: 定义离开过渡的开始状态。在离开过渡被触发时生效，在下一个帧移除。</p>
+	<p>5.v-leave-active: 定义过渡的状态。在元素整个过渡过程中作用，在离开过渡被触发后立即生效，在 transition/animation 完成之后移除。 这个类可以被用来定义过渡的过程时间，延迟和曲线函数。</p>
+	<p>6.v-leave-to: 2.1.8版及以上 定义离开过渡的结束状态。在离开过渡被触发一帧后生效（于此同时 v-leave 被删除），在 transition/animation 完成之后移除。</p>
+
+
+	<div id="animates-number-demo">
+		<input type="number" name="number" v-model.number="number">
+		<p>{{animatedNumber}}</p>
+	</div>
+
+	<div id="showApp">
+		<button v-on:click="show = !show">toogle</button>
+		<transition name="fade">
+			<p v-if="show">hello</p>
+		</transition>
+	</div>
+
+	<script type="text/javascript">
+	var app1  =	new Vue({
+			el:'#animates-number-demo',
+			data: {
+				number: 0,
+				animatedNumber: 0
+			},
+			watch: {
+				number: function (newValue, oldValue) {
+					var vm = this
+					function animate() {
+						if (TWEEN.update()) {
+							requestAnimationFrame(animate)
+						}
+					}
+
+					new TWEEN.Tween({tweeningNumber:oldValue})
+						.easing(TWEEN.Easing.Quadratic.Out)
+						.to({tweeningNumber:newValue},500)
+						.onUpdate(function() {
+							vm.animatedNumber = this.tweeningNumber.toFixed(0)
+						})
+						.start()
+					animate()
+				}
+			}
+	})
+
+	var app2 = new Vue({
+		el:'#showApp',
+		data: {
+			show: true
+		}
+	})
+	</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+    <title>todoList列表</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style type="text/css">
+      li {list-style: none;height: 28px;
+        line-height: 28px;padding: 2px 5px;}
+      span {display: inline-block;}
+      .todoList {
+        width: 80%;
+        margin: 0 auto;        
+      }
+      .todoList .write {
+        width: 70%;
+        height: 28px;
+        line-height: 28px;
+        margin: 0 auto;
+      }
+      .itemNav li {
+        display: inline-block;
+      }
+      .wrapper {position: relative;}
+      .check-span {
+        width: 10px;
+        height: 10px;        
+        background-color: gray;margin-right: 10px;
+      }
+      .itemList li .close{position: absolute;color: red;font-size: 20px;line-height: 40px;height: 40px;right: 20px;cursor: pointer;display: none;top: -5px;}
+      .itemList li:hover {
+        border: 1px solid #09f;
+        width: 70%;        
+      }
+      .itemList li:hover .close{display: block;}
+    </style>
+</head>
+<body>
+    <div id="todoList" class="todoList">
+      <h2>小目标列表</h2>
+      <h3>添加小目标</h3>
+      <input placeholder="请输入您的小目标，按下回车确认" class="write" v-model="addText" @keyup.enter="addItem">
+      <p>
+        <span>共有{{itemNav.length}}个目标</span>
+      </p>      
+      <ul class="itemNav">
+        <li><input type="radio" name="chooseType" checked="true" @click="selectType(0)"><label>所有目标</label></li>
+        <li><input type="radio" name="chooseType" @click="selectType(1)"><label>已完成目标</label></li>
+        <li><input type="radio" name="chooseType" @click="selectType(2)"><label>未完成目标</label></li>
+      </ul>
+      <ul class="itemList">
+        <li v-for="item in newNav">
+          <div class="wrapper">
+            <span class="check-span"></span>
+            <span>{{item.name}}</span>
+            <span class="close">X</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      new Vue({
+        el:'#todoList',
+        data: {
+          addText: '',
+          itemNav: [
+            {name:"HTML5",status:false},
+            {name:"CSS3",status:true},
+            {name:"vue",status:false},
+            {name:"react",status:false}],
+          newNav: []
+        },
+        methods: {
+          addItem:function() {
+            this.itemNav.push({
+              name: this.addText,
+              status: false
+            })
+            this.addText = ''       
+          },
+          selectType:function(type) {
+            switch(type) {
+              case 0 :
+                this.newNav = this.itemNav
+                break;
+              case 1:
+                this.newNav = this.itemNav.filter(function(item) {
+                  return item.status = true
+                })
+                break;
+              case 2:
+                this.newNav = this.itemNav.filter(function(item) {
+                  return item.status = false
+                })
+                break;
+            }
+          }
+        }     
+      })
+    </script>
+</body>
+</html>

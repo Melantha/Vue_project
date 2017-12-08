@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>转换布局</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="main">
+		<div class="bar">
+			<a class="list-icon" v-bind:class="{'active':layout == 'list'}" v-on:click="layout = 'list' "></a>
+			<a class="grid-icon" v-bind:class="{'active':layout=='grid'}" v-on:click = "layout = 'grid' "></a>
+		</div>
+	</div>
+</body>
+</html>

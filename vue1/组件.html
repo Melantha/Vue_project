@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>组件</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<p>组件 (Component) 是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素，Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。</p>
+
+	<h4>方式一：普通方法创建Vue实例：</h4>
+	<p>通过：new Vue({})</p>
+	<h3>注册一个全局组件：</h3>
+	<p>Vue.component(tagName,options)</p>
+
+	<div id="app-1">
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+	</div>
+
+	<h4 style="color: blue">
+		父组件通过props向下传递数据给子组件，子组件通过events给父组件发送消息。组件实例作用域是孤立的，不能在子组件模板内直接引用父组件数据，子组件使用父组件数据需要通过子组件的props选项。
+	</h4>
+
+	<h4>单向数据流prop 是单向绑定的：当父组件的属性变化时，将传导给子组件，但是不会反过来。这是为了防止子组件无意修改了父组件的状态——这会让应用的数据流难以理解。</h4>
+	
+	<h4>v-on绑定自定义事件</h4>
+	<h3>$on(eventName)：监听事件</h3>
+	<h3>$emit(eventName)：触发事件</h3>
+
+	<div id="app-2">
+		<p>total:{{total}}</p>
+		<button-counter v-on:inertent="inertentTotal"></button-counter>
+		<button-counter v-on:inertent="inertentTotal"></button-counter>
+	</div>
+<script type="text/javascript">	
+	Vue.component('simple-counter', {
+		template:  '<button v-on:click="incrementCounter">{{ counter }}</button>',
+		data:function () {
+			return {
+				counter:0
+			}
+		}
+	})
+
+	new Vue({
+		el:'#app-1'
+	})
+
+	Vue.component('button-counter', {
+		template:'<simple v-on:click="inertentCounter">{{counter}}</simple>',
+		data:function() {
+			return {
+				counter:0
+			}
+		},
+		methods: {
+			inertentCounter:function() {
+				this.counter = this.counter +1
+				this.$emit('inertent')
+			}
+		}
+	})
+
+	new Vue({
+		el:'#app-2',
+		data: {
+			total:0
+		},
+		methods: {
+			inertentTotal:function() {
+				this.total = this.total +1
+			}
+		}
+	})
+
+
+</script>
+</body>
+</html>

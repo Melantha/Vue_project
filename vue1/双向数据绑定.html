@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>双向数据绑定</title>
+	<script src="https://unpkg.com/vue"></script>
+	<style type="text/css">
+		[v-cloak] {
+ 			 display: none;
+		}
+		*{
+		    margin:0;
+			padding:0;
+		}
+		body{
+		    font-family:Microsoft YaHei;
+		    text-align:center;
+		}
+		li{
+		    list-style:none;
+		}
+		.tooltip{
+			background-color:#5c9bb7;
+			border-radius:3px;
+			width: 290px;
+			padding: 10px;
+			position: absolute;
+			left:50%;
+			margin-left:-150px;
+			top: 80px;
+		}
+		.tooltip:after{
+			content:'';
+			position:absolute;
+			border:6px solid #5190ac;
+			border-color:#5190ac transparent transparent;
+			width:0;
+			height:0;
+			bottom:-12px;
+			left:50%;
+			margin-left:-6px;
+		}
+		.tooltip input{
+			border: none;
+			width: 100%;
+			line-height: 34px;
+			border-radius: 3px;
+			box-shadow: 0 2px 6px #bbb inset;
+			text-align: center;
+			font-size: 16px;
+			font-family: inherit;
+			color: #8d9395;
+			font-weight: bold;
+			outline: none;
+		}
+		p{
+			font-size:22px;
+			font-weight:bold;
+			color:#6d8088;
+			height: 30px;
+			cursor:pointer;
+		}
+		p:before{
+			content:'✎';
+			display:inline-block;
+			margin-right:5px;
+			font-weight:normal;
+			vertical-align: text-bottom;
+		}
+		#main{
+			height:300px;
+			position:relative;
+			padding-top: 150px;
+		}
+	</style>
+</head>
+<body>
+	<h3>双向数据绑定</h3>
+	<h4><a v-on:click.stop="doThis"></a>阻止单击事件冒泡，是用于点击的事件处理程序，具有阻止事件传播的修饰符。</h4>
+	<div id="main" v-on:click="showFun">
+		<div class="tooltip" v-if="showTip" @click.stop>
+			<input v-model="text_content">
+		</div>
+		<p v-on:click="toogleTip">{{text_content}}</p>
+		<ul >
+			<li v-for="item in items">{{item.msg}}</li>
+		</ul>
+	</div>
+<script type="text/javascript">
+	var mainApp = new Vue({
+		el:'#main',
+		data: {
+			showTip: false,
+			text_content: 'Edit Me!',
+
+			items : [
+				{msg:'msaldmas'},
+				{msg:'dasdsac'}
+			]
+		},
+		methods: {
+			showFun:function() {
+				this.showTip = true
+			},
+			toogleTip:function() {
+				this.showTip = !this.showTip
+			}
+		}
+	})
+</script>
+</body>
+</html>

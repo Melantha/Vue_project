@@ -1,0 +1,5 @@
+变异方法：push(),pop(),sgift(),unshift(),splice(),sort(),reverse()
+会改变被方法调用的原始数组，费变异
+
+
+在Vue2.2.0+的版本中，v-for的使用中，key是必须的。
